@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 /*
- *  Prism Launcher - Minecraft Launcher
+ *  Penguin Launcher - Minecraft Launcher
  *  Copyright (C) 2022 Sefa Eyeoglu <contact@scrumplex.net>
  *  Copyright (C) 2023 TheKodeToad <TheKodeToad@proton.me>
  *
@@ -1022,10 +1022,10 @@ void MainWindow::processURLs(QList<QUrl> urls)
                     receivedData.insert(it->first, it->second);
                 emit APPLICATION->oauthReplyRecieved(receivedData);
                 continue;
-            } else if ((url.scheme() == "prismlauncher" || url.scheme() == BuildConfig.LAUNCHER_APP_BINARY_NAME) && isExternalURLImport) {
-                // PrismLauncher URL protocol modpack import
+            } else if ((url.scheme() == "penguinlauncher" || url.scheme() == BuildConfig.LAUNCHER_APP_BINARY_NAME) && isExternalURLImport) {
+                // PenguinLauncher URL protocol modpack import
                 // works for any prism fork
-                // preferred import format: prismlauncher://import?url=ENCODED
+                // preferred import format: penguinlauncher://import?url=ENCODED
                 const auto host = url.host().toLower();
                 const auto path = url.path();
 
@@ -1039,7 +1039,7 @@ void MainWindow::processURLs(QList<QUrl> urls)
                     }
                 }
 
-                // alternative import format: prismlauncher://import/ENCODED
+                // alternative import format: penguinlauncher://import/ENCODED
                 if (encodedTarget.isEmpty()) {
                     QString p = path;
 
@@ -1375,7 +1375,7 @@ void MainWindow::globalSettingsClosed()
     updateThemeMenu();
     updateStatusCenter();
     // This needs to be done to prevent UI elements disappearing in the event the config is changed
-    // but Prism Launcher exits abnormally, causing the window state to never be saved:
+    // but Penguin Launcher exits abnormally, causing the window state to never be saved:
     APPLICATION->settings()->set("MainWindowState", QString::fromUtf8(saveState().toBase64()));
     update();
 }

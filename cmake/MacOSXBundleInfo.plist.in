@@ -90,7 +90,7 @@
             <string>${Launcher_Name}</string>
             <key>CFBundleURLSchemes</key>
             <array>
-            <string>prismlauncher</string>
+            <string>penguinlauncher</string>
             <string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
             </array>
         </dict>

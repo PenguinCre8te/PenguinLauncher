@@ -465,7 +465,7 @@
     <iconset theme="launcher"/>
    </property>
    <property name="text">
-    <string>Prism Launcher (zip)</string>
+    <string>Penguin Launcher (zip)</string>
    </property>
   </action>
   <action name="actionExportInstanceMrPack">

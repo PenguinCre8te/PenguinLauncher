@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 /*
- *  Prism Launcher - Minecraft Launcher
+ *  Penguin Launcher - Minecraft Launcher
  *  Copyright (C) 2022 Rachel Powers <508861+Ryex@users.noreply.github.com>
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -83,7 +83,7 @@ PrismUpdaterApp::PrismUpdaterApp(int& argc, char** argv) : QApplication(argc, ar
 
     // Command line parsing
     QCommandLineParser parser;
-    parser.setApplicationDescription(QObject::tr("An auto-updater for Prism Launcher"));
+    parser.setApplicationDescription(QObject::tr("An auto-updater for Penguin Launcher"));
 
     parser.addOptions(
         { { { "d", "dir" }, tr("Use a custom path as application root (use '.' for current directory)."), tr("directory") },
@@ -129,7 +129,7 @@ PrismUpdaterApp::PrismUpdaterApp(int& argc, char** argv) : QApplication(argc, ar
     // change folder
     QString dirParam = parser.value("dir");
     if (!dirParam.isEmpty()) {
-        // the dir param. it makes prism launcher data path point to whatever the user specified
+        // the dir param. it makes penguin launcher data path point to whatever the user specified
         // on command line
         adjustedBy = "Command line";
         m_dataPath = dirParam;
@@ -448,7 +448,7 @@ void PrismUpdaterApp::run()
 
     if (m_isFlatpak) {
         showFatalErrorMessage(tr("Updating flatpack not supported"), tr("Actions outside of checking if an update is available are not "
-                                                                        "supported when running the flatpak version of Prism Launcher."));
+                                                                        "supported when running the flatpak version of Penguin Launcher."));
         return;
     }
     if (m_isAppimage) {
@@ -866,7 +866,7 @@ void PrismUpdaterApp::performInstall(QFileInfo file)
                "\n"
                "This likely means that a previous update attempt failed. Please ensure your installation is in working order before "
                "proceeding.\n"
-               "Check the Prism Launcher updater log at: \n"
+               "Check the Penguin Launcher updater log at: \n"
                "%7\n"
                "for details on the last update attempt.\n"
                "\n"
@@ -971,13 +971,13 @@ void PrismUpdaterApp::backupAppDir()
     if (file_list.isEmpty()) {
         // best guess
         if (BuildConfig.BUILD_ARTIFACT.toLower().contains("linux")) {
-            file_list.append({ "PrismLauncher", "bin", "share", "lib" });
+            file_list.append({ "PenguinLauncher", "bin", "share", "lib" });
         } else {  // windows by process of elimination
             file_list.append({
                 "jars",
-                "prismlauncher.exe",
-                "prismlauncher_filelink.exe",
-                "prismlauncher_updater.exe",
+                "penguinlauncher.exe",
+                "penguinlauncher_filelink.exe",
+                "penguinlauncher_updater.exe",
                 "qtlogging.ini",
                 "imageformats",
                 "iconengines",
