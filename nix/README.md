@@ -157,7 +157,7 @@ Example:
 {
   environment.systemPackages = [
     (import (
-      builtins.fetchTarball "https://github.com/PenguinLauncher/PenguinLauncher/archive/develop.tar.gz"
+      builtins.fetchTarball "https://github.com/penguincre8te/PenguinLauncher/archive/develop.tar.gz"
     )).packages.${pkgs.system}.penguinlauncher
   ];
 }
@@ -175,7 +175,7 @@ Example:
 {
   nixpkgs.overlays = [
     (import (
-      builtins.fetchTarball "https://github.com/PenguinLauncher/PenguinLauncher/archive/develop.tar.gz"
+      builtins.fetchTarball "https://github.com/penguincre8te/PenguinLauncher/archive/develop.tar.gz"
     )).overlays.default
   ];
 
@@ -190,7 +190,7 @@ You can add this repository as a channel and install its packages that way.
 Example:
 
 ```shell
-nix-channel --add https://github.com/PenguinLauncher/PenguinLauncher/archive/develop.tar.gz penguinlauncher
+nix-channel --add https://github.com/penguincre8te/PenguinLauncher/archive/develop.tar.gz penguinlauncher
 
 nix-channel --update penguinlauncher
 

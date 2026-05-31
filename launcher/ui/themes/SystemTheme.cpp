@@ -41,7 +41,7 @@
 #include "ThemeManager.h"
 
 // See https://github.com/MultiMC/Launcher/issues/1790
-// or https://github.com/PenguinLauncher/PenguinLauncher/issues/490
+// or https://github.com/penguincre8te/PenguinLauncher/issues/490
 static const QStringList S_NATIVE_STYLES{ "windows11", "windowsvista", "macos", "system", "windows" };
 
 SystemTheme::SystemTheme(const QString& styleName, const QPalette& defaultPalette, bool isDefaultTheme)

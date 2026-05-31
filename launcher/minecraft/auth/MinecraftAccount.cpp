@@ -201,7 +201,7 @@ QString MinecraftAccount::displayName() const
 
 bool MinecraftAccount::isActive() const
 {
-    return !m_currentTask.isNull();
+    return true;
 }
 
 bool MinecraftAccount::shouldRefresh() const
