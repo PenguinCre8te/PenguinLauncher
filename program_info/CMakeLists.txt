@@ -10,7 +10,7 @@ endif()
 
 set(Launcher_CommonName "PenguinLauncher")
 set(Launcher_DisplayName "Penguin Launcher")
-set(Launcher_AppID "org.penguincre8te.PenguinLauncher")
+set(Launcher_AppID "org.penguinlauncher.PenguinLauncher")
 set(Launcher_Domain "https://penguinlauncher.penguincre8te.workers.dev/")
 set(Launcher_Git "https://github.com/PenguinCre8te/PenguinLauncher")
 
