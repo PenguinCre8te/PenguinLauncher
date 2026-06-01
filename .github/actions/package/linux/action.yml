@@ -144,6 +144,13 @@ runs:
         INSTALL_PORTABLE_DIR: install-portable
         DEB_WORKSPACE: deb-package-root
       run: |
+        # Ensure version starts with a number for dpkg validation compatibility
+        DEB_VERSION="${VERSION}"
+        if [[ ! "$DEB_VERSION" =~ ^[0-9] ]]; then
+          DEB_VERSION="0.0.0-git.${VERSION}"
+        fi
+        echo "Sanitized Debian Version: $DEB_VERSION"
+        
         # Create standard /usr landing zones
         mkdir -p "${{ env.DEB_WORKSPACE }}/usr"
         
