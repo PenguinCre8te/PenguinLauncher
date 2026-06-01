@@ -27,47 +27,47 @@
   <screenshots>
     <screenshot type="default">
       <caption>The main Penguin Launcher window</caption>
-      <image type="source" width="1030" height="764">https://penguinlauncher.org/img/screenshots/LauncherDark.png</image>
+      <image type="source" width="1030" height="764">https://penguinlauncher.penguincre8te.workers.dev/img/screenshots/LauncherDark.png</image>
     </screenshot>
     <screenshot>
       <caption>Modpack installation</caption>
-      <image type="source" width="1126" height="850">https://penguinlauncher.org/img/screenshots/ModpackInstallDark.png</image>
+      <image type="source" width="1126" height="850">https://penguinlauncher.penguincre8te.workers.dev/img/screenshots/ModpackInstallDark.png</image>
     </screenshot>
     <screenshot>
       <caption>Modpack updating</caption>
-      <image type="source" width="930" height="677">https://penguinlauncher.org/img/screenshots/ModpackUpdateDark.png</image>
+      <image type="source" width="930" height="677">https://penguinlauncher.penguincre8te.workers.dev/img/screenshots/ModpackUpdateDark.png</image>
     </screenshot>
     <screenshot>
       <caption>Mod installation</caption>
-      <image type="source" width="848" height="558">https://penguinlauncher.org/img/screenshots/ModInstallDark.png</image>
+      <image type="source" width="848" height="558">https://penguinlauncher.penguincre8te.workers.dev/img/screenshots/ModInstallDark.png</image>
     </screenshot>
     <screenshot>
       <caption>Mod updating</caption>
-      <image type="source" width="860" height="748">https://penguinlauncher.org/img/screenshots/ModUpdateDark.png</image>
+      <image type="source" width="860" height="748">https://penguinlauncher.penguincre8te.workers.dev/img/screenshots/ModUpdateDark.png</image>
     </screenshot>
     <screenshot>
       <caption>Instance management</caption>
-      <image type="source" width="960" height="659">https://penguinlauncher.org/img/screenshots/PropertiesDark.png</image>
+      <image type="source" width="960" height="659">https://penguinlauncher.penguincre8te.workers.dev/img/screenshots/PropertiesDark.png</image>
     </screenshot>
     <screenshot>
       <caption>Cat :3</caption>
-      <image type="source" width="1042" height="754">https://penguinlauncher.org/img/screenshots/LauncherCatDark.png</image>
+      <image type="source" width="1042" height="754">https://penguinlauncher.penguincre8te.workers.dev/img/screenshots/LauncherCatDark.png</image>
     </screenshot>
     <screenshot>
       <caption>Customization</caption>
-      <image type="source" width="1040" height="752">https://penguinlauncher.org/img/screenshots/CustomizeDark.png</image>
+      <image type="source" width="1040" height="752">https://penguinlauncher.penguincre8te.workers.dev/img/screenshots/CustomizeDark.png</image>
     </screenshot>
   </screenshots>
   <releases>
     <release version="@Launcher_VERSION_NAME@" date="@Launcher_BUILD_TIMESTAMP@"></release>
   </releases>
-  <url type="homepage">https://penguinlauncher.org/</url>
+  <url type="homepage">https://penguinlauncher.penguincre8te.workers.dev/</url>
   <url type="bugtracker">https://github.com/penguincre8te/PenguinLauncher/issues</url>
-  <url type="faq">https://penguinlauncher.org/wiki/overview/faq/</url>
-  <url type="help">https://penguinlauncher.org/wiki/</url>
+  <url type="faq">https://penguinlauncher.penguincre8te.workers.dev/wiki/overview/faq/</url>
+  <url type="help">https://penguinlauncher.penguincre8te.workers.dev/wiki/</url>
   <url type="donation">https://opencollective.com/penguinlauncher</url>
   <url type="translate">https://hosted.weblate.org/projects/penguinlauncher/launcher</url>
-  <url type="contact">https://penguinlauncher.org/discord</url>
+  <url type="contact">https://penguinlauncher.penguincre8te.workers.dev/discord</url>
   <url type="vcs-browser">https://github.com/penguincre8te/PenguinLauncher</url>
   <url type="contribute">https://github.com/penguincre8te/PenguinLauncher/blob/develop/CONTRIBUTING.md</url>
   <content_rating type="oars-1.1">
