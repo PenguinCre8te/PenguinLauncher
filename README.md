@@ -31,7 +31,7 @@ Prebuilt Development builds are provided for **Linux**, **Windows** and **macOS*
 
 ## Community & Support
 
-Feel free to create a GitHub issue if you find a bug or want to suggest a new feature. 
+Feel free to create a GitHub issue if you find a bug or want to suggest a new feature.
 
 ## Building
 
