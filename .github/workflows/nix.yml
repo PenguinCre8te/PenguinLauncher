@@ -135,4 +135,4 @@ jobs:
         run: |
           nix build --no-link --print-out-paths .#penguinlauncher \
             | tee -a "$GITHUB_STEP_SUMMARY" \
-            | xargs cachix pin penguinlauncher "$TAG"-"$SYSTEM"
+            | xargs cachix pin penguinlauncher "$TAG"-"$SYSTEM" || echo "Cachix pinning failed, skipping..."
