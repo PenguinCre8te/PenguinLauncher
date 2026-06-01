@@ -12,7 +12,7 @@
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
 
     libnbtplusplus = {
-      url = "github:PenguinLauncher/libnbtplusplus";
+      url = "github:PrismLauncher/libnbtplusplus";
       flake = false;
     };
   };
