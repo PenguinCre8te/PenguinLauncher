@@ -42,21 +42,24 @@ runs:
     - name: Setup build variables
       shell: bash
       run: |
-        # Fixup architecture naming for AppImages
+        # Fixup architecture naming for AppImages and Debian
         dpkg_arch="$(dpkg-architecture -q DEB_HOST_ARCH_CPU)"
         case "$dpkg_arch" in
           "amd64")
             APPIMAGE_ARCH="x86_64"
+            DEB_ARCH="amd64"
             ;;
           "arm64")
             APPIMAGE_ARCH="aarch64"
+            DEB_ARCH="arm64"
             ;;
           *)
-            echo "# 🚨 The Debian architecture \"$deb_arch\" is not recognized!" >> "$GITHUB_STEP_SUMMARY"
+            echo "# 🚨 The Debian architecture \"$dpkg_arch\" is not recognized!" >> "$GITHUB_STEP_SUMMARY"
             exit 1
             ;;
         esac
         echo "APPIMAGE_ARCH=$APPIMAGE_ARCH" >> "$GITHUB_ENV"
+        echo "DEB_ARCH=$DEB_ARCH" >> "$GITHUB_ENV"
 
         # Used for the file paths of libraries
         echo "DEB_HOST_MULTIARCH=$(dpkg-architecture -q DEB_HOST_MULTIARCH)" >> "$GITHUB_ENV"
@@ -134,11 +137,49 @@ runs:
         cd ${{ env.INSTALL_PORTABLE_DIR }}
         tar -czf ../PenguinLauncher-portable.tar.gz *
 
+    - name: Package Debian Archive (.deb)
+      shell: bash
+      env:
+        VERSION: ${{ github.ref_type == 'tag' && github.ref_name || inputs.version }}
+        INSTALL_PORTABLE_DIR: install-portable
+        DEB_WORKSPACE: deb-package-root
+      run: |
+        # Create standard /usr landing zones
+        mkdir -p "${{ env.DEB_WORKSPACE }}/usr"
+        
+        # Copy bin, share, lib compiled data to /usr structure while ignoring portable files
+        cp -r "${{ env.INSTALL_PORTABLE_DIR }}"/{bin,share,shared} "${{ env.DEB_WORKSPACE }}/usr/" 2>/dev/null || true
+
+        # Setup packaging control metadata
+        mkdir -p "${{ env.DEB_WORKSPACE }}/DEBIAN"
+        cat <<EOF > "${{ env.DEB_WORKSPACE }}/DEBIAN/control"
+        Package: penguinlauncher
+        Version: ${VERSION}
+        Section: utils
+        Priority: optional
+        Architecture: ${{ env.DEB_ARCH }}
+        Maintainer: PenguinCre8te <cleverpenguinmail@gmail.com>
+        Depends: libc6, libqt6core6, libqt6widgets6
+        Description: An open-source Minecraft launcher with the ability to manage multiple instances, accounts and mods. Focused on user freedom and free redistributability.
+        EOF
+
+        # Maintain strict executable rules for system paths
+        chmod -R 755 "${{ env.DEB_WORKSPACE }}/usr/bin/" 2>/dev/null || true
+
+        # Build final deb package out into root directory
+        dpkg-deb --build "${{ env.DEB_WORKSPACE }}" "penguinlauncher_${VERSION}_${{ env.DEB_ARCH }}.deb"
+
     - name: Upload binary tarball
       uses: actions/upload-artifact@v7
       with:
         name: PenguinLauncher-${{ inputs.artifact-name }}-Qt6-Portable-${{ inputs.version }}-${{ inputs.build-type }}
         path: PenguinLauncher-portable.tar.gz
+
+    - name: Upload Debian Package
+      uses: actions/upload-artifact@v7
+      with:
+        name: PenguinLauncher-Linux-${{ env.DEB_ARCH }}-${{ inputs.version }}-${{ inputs.build-type }}.deb
+        path: penguinlauncher_*.deb
 
     - name: Upload AppImage
       uses: actions/upload-artifact@v7
