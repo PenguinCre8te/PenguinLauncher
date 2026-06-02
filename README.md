@@ -13,7 +13,7 @@
 
 ## Installation
 
-- All downloads and instructions for Penguin Launcher can be found on our [Website](https://penguinlauncher.org/download).
+- All downloads and instructions for Penguin Launcher can be found on our [Website](https://penguinlauncher.penguincre8te.workers.dev/download).
 - Last build status can be found in the [GitHub Actions](https://github.com/penguincre8te/PenguinLauncher/actions) tab (this also includes the pull requests status).
 
 ### Development Builds
