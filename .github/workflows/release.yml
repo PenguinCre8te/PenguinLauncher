@@ -47,8 +47,8 @@ jobs:
           mv PenguinLauncher-Linux-Qt6-Portable*/PenguinLauncher-portable.tar.gz PenguinLauncher-Linux-Qt6-Portable-${{ env.VERSION }}.tar.gz
           mv PenguinLauncher-Linux-aarch64-Qt6-Portable*/PenguinLauncher-portable.tar.gz PenguinLauncher-Linux-aarch64-Qt6-Portable-${{ env.VERSION }}.tar.gz
           
-          mv PenguinLauncher-Linux-amd64-*.deb/penguinlauncher_*.deb PenguinLauncher-Linux-amd64-${{ env.VERSION }}.deb
-          mv PenguinLauncher-Linux-arm64-*.deb/penguinlauncher_*.deb PenguinLauncher-Linux-arm64-${{ env.VERSION }}.deb
+          # mv PenguinLauncher-Linux-amd64-*.deb/penguinlauncher_*.deb PenguinLauncher-Linux-amd64-${{ env.VERSION }}.deb
+          # mv PenguinLauncher-Linux-arm64-*.deb/penguinlauncher_*.deb PenguinLauncher-Linux-arm64-${{ env.VERSION }}.deb
 
           mv PenguinLauncher-*.AppImage/PenguinLauncher-*-x86_64.AppImage PenguinLauncher-Linux-x86_64.AppImage
           mv PenguinLauncher-*.AppImage.zsync/PenguinLauncher-*-x86_64.AppImage.zsync PenguinLauncher-Linux-x86_64.AppImage.zsync
@@ -113,8 +113,8 @@ jobs:
             PenguinLauncher-Linux-aarch64.AppImage.zsync
             PenguinLauncher-Linux-Qt6-Portable-${{ env.VERSION }}.tar.gz
             PenguinLauncher-Linux-aarch64-Qt6-Portable-${{ env.VERSION }}.tar.gz
-            PenguinLauncher-Linux-amd64-${{ env.VERSION }}.deb
-            PenguinLauncher-Linux-arm64-${{ env.VERSION }}.deb
+            # PenguinLauncher-Linux-amd64-${{ env.VERSION }}.deb
+            # PenguinLauncher-Linux-arm64-${{ env.VERSION }}.deb
             PenguinLauncher-Windows-MinGW-w64-${{ env.VERSION }}.zip
             PenguinLauncher-Windows-MinGW-w64-Portable-${{ env.VERSION }}.zip
             PenguinLauncher-Windows-MinGW-w64-Setup-${{ env.VERSION }}.exe
