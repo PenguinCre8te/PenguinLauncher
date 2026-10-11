@@ -25,7 +25,7 @@
      <number>0</number>
     </property>
     <item row="1" column="1" colspan="2">
-     <widget class="ModListView" name="treeView">
+     <widget class="QTreeView" name="treeView">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -38,9 +38,27 @@
       <property name="dragDropMode">
        <enum>QAbstractItemView::DragDropMode::DropOnly</enum>
       </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollMode::ScrollPerPixel</enum>
+      </property>
+      <property name="rootIsDecorated">
+       <bool>false</bool>
+      </property>
       <property name="uniformRowHeights">
        <bool>true</bool>
       </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <attribute name="headerStretchLastSection">
+       <bool>false</bool>
+      </attribute>
      </widget>
     </item>
     <item row="2" column="1" colspan="2">
@@ -218,13 +236,24 @@
     <string>View the homepages of all selected items.</string>
    </property>
   </action>
+  <action name="actionLockUpdates">
+   <property name="text">
+    <string>Lock Updates</string>
+   </property>
+   <property name="toolTip">
+    <string>Lock the resource to prevent it from being updated</string>
+   </property>
+  </action>
+  <action name="actionUnlockUpdates">
+   <property name="text">
+    <string>Unlock Updates</string>
+   </property>
+   <property name="toolTip">
+    <string>Unlock the resource to allow it to be updated</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>ModListView</class>
-   <extends>QTreeView</extends>
-   <header>ui/widgets/ModListView.h</header>
-  </customwidget>
   <customwidget>
    <class>InfoFrame</class>
    <extends>QFrame</extends>

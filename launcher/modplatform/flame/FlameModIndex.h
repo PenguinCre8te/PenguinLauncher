@@ -4,15 +4,11 @@
 
 #pragma once
 
+#include "Result.h"
 #include "modplatform/ModIndex.h"
-
-#include "BaseInstance.h"
 
 namespace FlameMod {
 
-void loadIndexedPack(ModPlatform::IndexedPack& m, QJsonObject& obj);
-void loadURLs(ModPlatform::IndexedPack& m, QJsonObject& obj);
-void loadBody(ModPlatform::IndexedPack& m);
-void loadIndexedPackVersions(ModPlatform::IndexedPack& pack, QJsonArray& arr);
-ModPlatform::IndexedVersion loadIndexedPackVersion(QJsonObject& obj, bool load_changelog = false);
+Result<> loadIndexedPackVersions(ModPlatform::IndexedPack& pack, const QJsonArray& arr);
+Result<ModPlatform::IndexedVersion> loadIndexedPackVersion(const QJsonObject& obj, bool loadChangelog = false);
 }  // namespace FlameMod

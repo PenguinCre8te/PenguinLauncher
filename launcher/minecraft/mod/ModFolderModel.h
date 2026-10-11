@@ -60,7 +60,6 @@ class ModFolderModel : public ResourceFolderModel {
    public:
     enum Columns : std::uint8_t {
         ActiveColumn = 0,
-        ImageColumn,
         NameColumn,
         VersionColumn,
         DateColumn,
@@ -73,13 +72,16 @@ class ModFolderModel : public ResourceFolderModel {
         RequiresColumn,
         RequiredByColumn,
         FileNameColumn,
+        LockUpdateColumn,
         NumColumns
     };
-    ModFolderModel(const QDir& dir, BaseInstance* instance, bool isIndexed, bool createDir, QObject* parent = nullptr);
+    ModFolderModel(const QDir& dir, MinecraftInstance* instance, bool isIndexed, bool createDir, QObject* parent = nullptr);
 
     QString id() const override { return "mods"; }
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+
+    QList<MultiDecorationItemDelegate::Icon> icons(int row) const override;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     int columnCount(const QModelIndex& parent) const override;
@@ -94,11 +96,12 @@ class ModFolderModel : public ResourceFolderModel {
 
     QModelIndexList getAffectedMods(const QModelIndexList& indexes, EnableAction action);
 
-    RESOURCE_HELPERS(Mod)
+    QStringList requiresList(const QString& id) const;
+    QStringList requiredByList(const QString& id) const;
 
-   public:
-    QStringList requiresList(const QString& id);
-    QStringList requiredByList(const QString& id);
+    bool supportsImage() const override { return true; }
+
+    RESOURCE_HELPERS(Mod)
 
    private slots:
     void onParseSucceeded(int ticket, const QString& resourceId) override;

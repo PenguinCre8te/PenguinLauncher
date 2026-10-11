@@ -31,7 +31,7 @@ jobs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: "true"
           path: "PenguinLauncher-source"
@@ -85,6 +85,7 @@ jobs:
             cd ..
           done
 
+<<<<<<< HEAD
           for d in PenguinLauncher-Windows-MinGW-arm64*; do
             cd "${d}" || continue
             INST="$(echo -n ${d} | grep -o Setup || true)"
@@ -96,6 +97,8 @@ jobs:
             cd ..
           done
 
+=======
+>>>>>>> upstream/develop
       - name: Create release
         id: create_release
         uses: softprops/action-gh-release@v3
@@ -107,6 +110,7 @@ jobs:
           prerelease: false
           fail_on_unmatched_files: true
           files: |
+<<<<<<< HEAD
             PenguinLauncher-Linux-x86_64.AppImage
             PenguinLauncher-Linux-x86_64.AppImage.zsync
             PenguinLauncher-Linux-aarch64.AppImage
@@ -130,3 +134,23 @@ jobs:
             PenguinLauncher-macOS-${{ env.VERSION }}.zip
             PenguinLauncher-macOS-${{ env.VERSION }}.dmg
             PenguinLauncher-${{ env.VERSION }}.tar.gz
+=======
+            PrismLauncher-Linux-x86_64.AppImage
+            PrismLauncher-Linux-x86_64.AppImage.zsync
+            PrismLauncher-Linux-aarch64.AppImage
+            PrismLauncher-Linux-aarch64.AppImage.zsync
+            PrismLauncher-Linux-Qt6-Portable-${{ env.VERSION }}.tar.gz
+            PrismLauncher-Linux-aarch64-Qt6-Portable-${{ env.VERSION }}.tar.gz
+            PrismLauncher-Windows-MinGW-w64-${{ env.VERSION }}.zip
+            PrismLauncher-Windows-MinGW-w64-Portable-${{ env.VERSION }}.zip
+            PrismLauncher-Windows-MinGW-w64-Setup-${{ env.VERSION }}.exe
+            PrismLauncher-Windows-MSVC-arm64-${{ env.VERSION }}.zip
+            PrismLauncher-Windows-MSVC-arm64-Portable-${{ env.VERSION }}.zip
+            PrismLauncher-Windows-MSVC-arm64-Setup-${{ env.VERSION }}.exe
+            PrismLauncher-Windows-MSVC-${{ env.VERSION }}.zip
+            PrismLauncher-Windows-MSVC-Portable-${{ env.VERSION }}.zip
+            PrismLauncher-Windows-MSVC-Setup-${{ env.VERSION }}.exe
+            PrismLauncher-macOS-${{ env.VERSION }}.zip
+            PrismLauncher-macOS-${{ env.VERSION }}.dmg
+            PrismLauncher-${{ env.VERSION }}.tar.gz
+>>>>>>> upstream/develop

@@ -6,10 +6,6 @@
 
 #include <QAbstractListModel>
 
-#include "BaseInstance.h"
-
-#include "modplatform/ModIndex.h"
-
 #include "ui/pages/modplatform/ResourceModel.h"
 
 class Version;
@@ -20,7 +16,7 @@ class ShaderPackResourceModel : public ResourceModel {
     Q_OBJECT
 
    public:
-    ShaderPackResourceModel(const BaseInstance&, ResourceAPI*, const QString& debugName, QString metaEntryBase);
+    ShaderPackResourceModel(ResourceFolderModel*, const ResourceAPI*, const QString& debugName, QString metaEntryBase);
 
     /* Ask the API for more information */
     void searchWithTerm(const QString& term, unsigned int sort);
@@ -31,10 +27,6 @@ class ShaderPackResourceModel : public ResourceModel {
    public slots:
     ResourceAPI::SearchArgs createSearchArguments() override;
     ResourceAPI::VersionSearchArgs createVersionsArguments(const QModelIndex&) override;
-    ResourceAPI::ProjectInfoArgs createInfoArguments(const QModelIndex&) override;
-
-   protected:
-    const BaseInstance& m_base_instance;
 
    private:
     QString m_debugName;

@@ -46,26 +46,34 @@ class TexturePackFolderModel : public ResourceFolderModel {
    public:
     enum Columns : std::uint8_t {
         ActiveColumn = 0,
-        ImageColumn,
         NameColumn,
         DateColumn,
         ProviderColumn,
         SizeColumn,
         FileNameColumn,
+        LockUpdateColumn,
         NumColumns
     };
 
-    explicit TexturePackFolderModel(const QDir& dir, BaseInstance* instance, bool isIndexed, bool createDir, QObject* parent = nullptr);
+    explicit TexturePackFolderModel(const QDir& dir,
+                                    MinecraftInstance* instance,
+                                    bool isIndexed,
+                                    bool createDir,
+                                    QObject* parent = nullptr);
 
     QString id() const override { return "texturepacks"; }
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+
+    QList<MultiDecorationItemDelegate::Icon> icons(int row) const override;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     int columnCount(const QModelIndex& parent) const override;
 
     [[nodiscard]] Resource* createResource(const QFileInfo& file) override { return new TexturePack(file); }
     [[nodiscard]] Task* createParseTask(Resource& /*unused*/) override;
+
+    bool supportsImage() const override { return true; }
 
     RESOURCE_HELPERS(TexturePack)
 };

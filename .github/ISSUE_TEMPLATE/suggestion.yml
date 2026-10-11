@@ -8,6 +8,7 @@ body:
       ### Use this form to suggest a feature for Penguin Launcher.
 - type: input
   attributes:
+<<<<<<< HEAD
     label: Role
     description: In what way do you use Penguin Launcher that needs this feature?
     placeholder: I play modded Minecraft.
@@ -15,6 +16,8 @@ body:
     required: true
 - type: input
   attributes:
+=======
+>>>>>>> upstream/develop
     label: Suggestion
     description: What do you want Penguin Launcher to do?
     placeholder: I want the cat button to meow.

@@ -38,10 +38,13 @@ static QString replaceSuffix(QString target, const QString& suffix, const QStrin
     return target + replacement;
 }
 
-static bool unzipNatives(QString source, QString targetFolder, bool applyJnilibHack)
+static Result<> unzipNatives(QString source, QString targetFolder, bool applyJnilibHack)
 {
     MMCZip::ArchiveReader zip(source);
     QDir directory(targetFolder);
+    if (directory.exists()) {
+        directory.setPath(directory.canonicalPath());
+    }
 
     auto extPtr = MMCZip::ArchiveWriter::createDiskWriter();
     auto ext = extPtr.get();
@@ -71,10 +74,10 @@ void ExtractNatives::executeTask()
     auto javaVersion = instance->getJavaVersion();
     bool jniHackEnabled = javaVersion.major() >= 8;
     for (const auto& source : toExtract) {
-        if (!unzipNatives(source, outputPath, jniHackEnabled)) {
-            const char* reason = QT_TR_NOOP("Couldn't extract native jar '%1' to destination '%2'");
-            emit logLine(QString(reason).arg(source, outputPath), MessageLevel::Fatal);
-            emitFailed(tr(reason).arg(source, outputPath));
+        if (const auto result = unzipNatives(source, outputPath, jniHackEnabled); !result) {
+            const char* reason = QT_TR_NOOP("Couldn't extract native jar '%1' to destination '%2': %3");
+            emit logLine(QString(reason).arg(source, outputPath, result.error()), MessageLevel::Fatal);
+            emitFailed(tr(reason).arg(source, outputPath, result.error()));
             return;
         }
     }

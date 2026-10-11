@@ -1,5 +1,10 @@
 blank_issues_enabled: true
 contact_links:
+<<<<<<< HEAD
   - name: Penguin Launcher Matrix Support Room
     url: https://matrix.to/#/#penguin-support:matrix.org
+=======
+  - name: Prism Launcher Discord Server
+    url: https://prismlauncher.org/discord
+>>>>>>> upstream/develop
     about: Please ask for support here before opening an issue.

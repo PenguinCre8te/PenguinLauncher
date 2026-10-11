@@ -13,8 +13,19 @@
 
 ## Installation
 
+<<<<<<< HEAD
 - All downloads and instructions for Penguin Launcher can be found on our [Website](https://penguinlauncher.penguincre8te.workers.dev/download).
 - Last build status can be found in the [GitHub Actions](https://github.com/penguincre8te/PenguinLauncher/actions) tab (this also includes the pull requests status).
+=======
+- All downloads and instructions for Prism Launcher can be found on our [Website](https://prismlauncher.org/download).
+- Last build status can be found in the [GitHub Actions](https://github.com/PrismLauncher/PrismLauncher/actions) tab (this also includes the pull requests status).
+>>>>>>> upstream/develop
+
+<p align="center">
+<a href="https://repology.org/project/prismlauncher/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/prismlauncher.svg?columns=3" alt="Packaging status">
+</a>
+</p>
 
 ### Development Builds
 

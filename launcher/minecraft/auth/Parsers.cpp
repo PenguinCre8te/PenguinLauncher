@@ -1,10 +1,12 @@
 #include "Parsers.h"
 #include "Json.h"
 #include "Logging.h"
+#include "Result.h"
 
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <expected>
 
 namespace Parsers {
 
@@ -79,31 +81,28 @@ bool getBool(QJsonValue value, bool& out)
 // 2148916238 = child account not linked to a family
 */
 
-bool parseXTokenResponse(QByteArray& data, Token& output, QString name)
+bool parseXTokenResponse(const QByteArray& data, Token& output, QString name)
 {
     qDebug() << "Parsing" << name << ":";
     qCDebug(authCredentials()) << data;
-    QJsonParseError jsonError;
-    QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    if (jsonError.error) {
-        qWarning() << "Failed to parse response from user.auth.xboxlive.com as JSON:" << jsonError.errorString();
+    auto obj = Json::requireObject(data, "xbox live auth response");
+    if (!obj) {
+        qWarning() << "Failed to parse response from user.auth.xboxlive.com as JSON:" << obj.error();
         return false;
     }
-
-    auto obj = doc.object();
-    if (!getDateTime(obj.value("IssueInstant"), output.issueInstant)) {
+    if (!getDateTime(obj->value("IssueInstant"), output.issueInstant)) {
         qWarning() << "User IssueInstant is not a timestamp";
         return false;
     }
-    if (!getDateTime(obj.value("NotAfter"), output.notAfter)) {
+    if (!getDateTime(obj->value("NotAfter"), output.notAfter)) {
         qWarning() << "User NotAfter is not a timestamp";
         return false;
     }
-    if (!getString(obj.value("Token"), output.token)) {
+    if (!getString(obj->value("Token"), output.token)) {
         qWarning() << "User Token is not a string";
         return false;
     }
-    auto arrayVal = obj.value("DisplayClaims").toObject().value("xui");
+    auto arrayVal = obj->value("DisplayClaims").toObject().value("xui");
     if (!arrayVal.isArray()) {
         qWarning() << "Missing xui claims array";
         return false;
@@ -140,30 +139,27 @@ bool parseXTokenResponse(QByteArray& data, Token& output, QString name)
     return true;
 }
 
-bool parseMinecraftProfile(QByteArray& data, MinecraftProfile& output)
+bool parseMinecraftProfile(const QByteArray& data, MinecraftProfile& output)
 {
     qDebug() << "Parsing Minecraft profile...";
     qCDebug(authCredentials()) << data;
 
-    QJsonParseError jsonError;
-    QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    if (jsonError.error) {
-        qWarning() << "Failed to parse response from user.auth.xboxlive.com as JSON:" << jsonError.errorString();
+    auto obj = Json::requireObject(data, "xbox live profile response");
+    if (!obj) {
+        qWarning() << "Failed to parse response from user.auth.xboxlive.com as JSON:" << obj.error();
         return false;
     }
-
-    auto obj = doc.object();
-    if (!getString(obj.value("id"), output.id)) {
+    if (!getString(obj->value("id"), output.id)) {
         qWarning() << "Minecraft profile id is not a string";
         return false;
     }
 
-    if (!getString(obj.value("name"), output.name)) {
+    if (!getString(obj->value("name"), output.name)) {
         qWarning() << "Minecraft profile name is not a string";
         return false;
     }
 
-    auto skinsArray = obj.value("skins").toArray();
+    auto skinsArray = obj->value("skins").toArray();
     for (auto skin : skinsArray) {
         auto skinObj = skin.toObject();
         Skin skinOut;
@@ -188,7 +184,7 @@ bool parseMinecraftProfile(QByteArray& data, MinecraftProfile& output)
         output.skin = skinOut;
         break;
     }
-    auto capesArray = obj.value("capes").toArray();
+    auto capesArray = obj->value("capes").toArray();
 
     QString currentCape;
     for (auto cape : capesArray) {
@@ -282,28 +278,15 @@ decoded base64 "value":
 }
 */
 
-bool parseMinecraftProfileMojang(QByteArray& data, MinecraftProfile& output)
+Result<> parseMinecraftProfileMojang(const QByteArray& data, MinecraftProfile& output)
 {
     qDebug() << "Parsing Minecraft profile...";
     qCDebug(authCredentials()) << data;
 
-    QJsonParseError jsonError;
-    QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    if (jsonError.error) {
-        qWarning() << "Failed to parse response as JSON:" << jsonError.errorString();
-        return false;
-    }
+    TRY_INTO(auto obj, Json::requireObject(data, "mojang minecraft profile"))
 
-    auto obj = Json::requireObject(doc, "mojang minecraft profile");
-    if (!getString(obj.value("id"), output.id)) {
-        qWarning() << "Minecraft profile id is not a string";
-        return false;
-    }
-
-    if (!getString(obj.value("name"), output.name)) {
-        qWarning() << "Minecraft profile name is not a string";
-        return false;
-    }
+    TRY_INTO(output.id, Json::requireString(obj, "id"))
+    TRY_INTO(output.name, Json::requireString(obj, "name"))
 
     auto propsArray = obj.value("properties").toArray();
     QByteArray texturePayload;
@@ -325,22 +308,11 @@ bool parseMinecraftProfileMojang(QByteArray& data, MinecraftProfile& output)
     }
 
     if (texturePayload.isNull()) {
-        qWarning() << "No texture payload data";
-        return false;
+        return std::unexpected("No texture payload data");
     }
 
-    doc = QJsonDocument::fromJson(texturePayload, &jsonError);
-    if (jsonError.error) {
-        qWarning() << "Failed to parse response as JSON:" << jsonError.errorString();
-        return false;
-    }
-
-    obj = Json::requireObject(doc, "session texture payload");
-    auto textures = obj.value("textures");
-    if (!textures.isObject()) {
-        qWarning() << "No textures array in response";
-        return false;
-    }
+    TRY_INTO(obj, Json::requireObject(texturePayload, "session texture payload"))
+    TRY_INTO(auto tObj, Json::requireObject(obj, "textures"))
 
     Skin skinOut;
     // fill in default skin info ourselves, as this endpoint doesn't provide it
@@ -350,15 +322,11 @@ bool parseMinecraftProfileMojang(QByteArray& data, MinecraftProfile& output)
     // sadly we can't figure this out, but I don't think it really matters...
     skinOut.id = "00000000-0000-0000-0000-000000000000";
     Cape capeOut;
-    auto tObj = textures.toObject();
     for (auto idx = tObj.constBegin(); idx != tObj.constEnd(); ++idx) {
         if (idx->isObject()) {
             if (idx.key() == "SKIN") {
                 auto skin = idx->toObject();
-                if (!getString(skin.value("url"), skinOut.url)) {
-                    qWarning() << "Skin url is not a string";
-                    return false;
-                }
+                TRY_INTO(skinOut.url, Json::requireString(skin, "url"))
                 skinOut.url.replace("http://textures.minecraft.net", "https://textures.minecraft.net");
 
                 auto maybeMeta = skin.find("metadata");
@@ -369,10 +337,7 @@ bool parseMinecraftProfileMojang(QByteArray& data, MinecraftProfile& output)
                 }
             } else if (idx.key() == "CAPE") {
                 auto cape = idx->toObject();
-                if (!getString(cape.value("url"), capeOut.url)) {
-                    qWarning() << "Cape url is not a string";
-                    return false;
-                }
+                TRY_INTO(capeOut.url, Json::requireString(cape, "url"))
                 capeOut.url.replace("http://textures.minecraft.net", "https://textures.minecraft.net");
 
                 // we don't know the cape ID as it is not returned from the session server
@@ -382,33 +347,31 @@ bool parseMinecraftProfileMojang(QByteArray& data, MinecraftProfile& output)
         }
     }
 
-    output.skin = skinOut;
+    output.skin = std::move(skinOut);
     if (capeOut.alias == "cape") {
         output.capes = QMap<QString, Cape>({ { capeOut.alias, capeOut } });
         output.currentCape = capeOut.alias;
     }
 
     output.validity = Validity::Certain;
-    return true;
+    return {};
 }
 
-bool parseMinecraftEntitlements(QByteArray& data, MinecraftEntitlement& output)
+bool parseMinecraftEntitlements(const QByteArray& data, MinecraftEntitlement& output)
 {
     qDebug() << "Parsing Minecraft entitlements...";
     qCDebug(authCredentials()) << data;
 
-    QJsonParseError jsonError;
-    QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    if (jsonError.error) {
-        qWarning() << "Failed to parse response from user.auth.xboxlive.com as JSON:" << jsonError.errorString();
+    auto obj = Json::requireObject(data, "xbox live entitlements response");
+    if (!obj) {
+        qWarning() << "Failed to parse response from user.auth.xboxlive.com as JSON:" << obj.error();
         return false;
     }
 
-    auto obj = doc.object();
     output.canPlayMinecraft = false;
     output.ownsMinecraft = false;
 
-    auto itemsArray = obj.value("items").toArray();
+    auto itemsArray = obj->value("items").toArray();
     for (auto item : itemsArray) {
         auto itemObj = item.toObject();
         QString name;
@@ -426,50 +389,19 @@ bool parseMinecraftEntitlements(QByteArray& data, MinecraftEntitlement& output)
     return true;
 }
 
-bool parseRolloutResponse(QByteArray& data, bool& result)
+bool parseMojangResponse(const QByteArray& data, Token& output)
 {
-    qDebug() << "Parsing Rollout response...";
-    qCDebug(authCredentials()) << data;
-
-    QJsonParseError jsonError;
-    QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    if (jsonError.error) {
-        qWarning() << "Failed to parse response from https://api.minecraftservices.com/rollout/v1/msamigration as JSON: "
-                   << jsonError.errorString();
-        return false;
-    }
-
-    auto obj = doc.object();
-    QString feature;
-    if (!getString(obj.value("feature"), feature)) {
-        qWarning() << "Rollout feature is not a string";
-        return false;
-    }
-    if (feature != "msamigration") {
-        qWarning() << "Rollout feature is not what we expected (msamigration), but is instead \"" << feature << "\"";
-        return false;
-    }
-    if (!getBool(obj.value("rollout"), result)) {
-        qWarning() << "Rollout feature is not a string";
-        return false;
-    }
-    return true;
-}
-
-bool parseMojangResponse(QByteArray& data, Token& output)
-{
-    QJsonParseError jsonError;
     qDebug() << "Parsing Mojang response...";
     qCDebug(authCredentials()) << data;
-    QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    if (jsonError.error) {
-        qWarning() << "Failed to parse response from api.minecraftservices.com/launcher/login as JSON:" << jsonError.errorString();
+
+    auto obj = Json::requireObject(data, "mojang login response");
+    if (!obj) {
+        qWarning() << "Failed to parse response from api.minecraftservices.com/launcher/login as JSON:" << obj.error();
         return false;
     }
 
-    auto obj = doc.object();
     double expires_in = 0;
-    if (!getNumber(obj.value("expires_in"), expires_in)) {
+    if (!getNumber(obj->value("expires_in"), expires_in)) {
         qWarning() << "expires_in is not a valid number";
         return false;
     }
@@ -478,13 +410,13 @@ bool parseMojangResponse(QByteArray& data, Token& output)
     output.notAfter = currentTime.addSecs(expires_in);
 
     QString username;
-    if (!getString(obj.value("username"), username)) {
+    if (!getString(obj->value("username"), username)) {
         qWarning() << "username is not valid";
         return false;
     }
 
     // TODO: it's a JWT... validate it?
-    if (!getString(obj.value("access_token"), output.token)) {
+    if (!getString(obj->value("access_token"), output.token)) {
         qWarning() << "access_token is not valid";
         return false;
     }

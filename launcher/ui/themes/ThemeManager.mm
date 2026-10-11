@@ -20,7 +20,7 @@
 
 #include <AppKit/AppKit.h>
 
-void ThemeManager::setTitlebarColorOnMac(WId windowId, QColor color)
+void ThemeManager::setTitlebarColorOnMac(WId windowId, const QColor& color)
 {
     if (windowId == 0) {
         return;
@@ -31,6 +31,7 @@ void ThemeManager::setTitlebarColorOnMac(WId windowId, QColor color)
     window.titlebarAppearsTransparent = YES;
     window.backgroundColor = [NSColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
 
+<<<<<<< HEAD
     // Unfortunately there seems to be no easy way to set the titlebar text color.
     // The closest we can do without dubious hacks is set the dark/light mode state based on the brightness of the
     // background color, which should at least make the text readable even if we can't use the theme's text color.
@@ -40,9 +41,11 @@ void ThemeManager::setTitlebarColorOnMac(WId windowId, QColor color)
     } else {
         window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
     }
+=======
+>>>>>>> upstream/develop
 }
 
-void ThemeManager::setTitlebarColorOfAllWindowsOnMac(QColor color)
+void ThemeManager::setTitlebarColorOfAllWindowsOnMac(const QColor& color)
 {
     NSArray<NSWindow*>* windows = [NSApp windows];
     for (NSWindow* window : windows) {
