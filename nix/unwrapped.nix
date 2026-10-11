@@ -61,10 +61,13 @@ stdenv.mkDerivation {
     ln -s ${libnbtplusplus} source/libraries/libnbtplusplus
   '';
 
-  # Ensure that instance shortcuts point to our final wrapper, rather than this unwrapped version
   postPatch = ''
+    # Ensure that instance shortcuts point to our final wrapper, rather than this unwrapped version
     substituteInPlace launcher/minecraft/ShortcutUtils.cpp \
       --replace-fail 'QApplication::applicationFilePath()' 'QProcessEnvironment::systemEnvironment().value("NIX_LAUNCHER_WRAPPER", "${placeholder "out"}/bin/prismlauncher")'
+
+    # Strip -Werror from CMake files so deprecation warnings don't fail the build
+    find . -name "CMakeLists.txt" -exec sed -i 's/-Werror//g' {} +
   '';
 
   nativeBuildInputs = [
