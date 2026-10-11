@@ -328,7 +328,7 @@ auto V1::getIndexForMod(const QDir& indexDir, const QString& slug) -> Mod
             std::ranges::sort(mod.mcVersions, sortMCVersions);
         }
     }
-    mod.version_number = table["x-penguinlauncher-version-number"].value_or("");
+    mod.versionNumber = table["x-penguinlauncher-version-number"].value_or("");
 
     {  // [download] info
         auto* downloadTable = table["download"].as_table();
