@@ -1,14 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only AND Apache-2.0
 /*
-<<<<<<< HEAD:launcher/screenshots/ImgurUpload.h
  *  Penguin Launcher - Minecraft Launcher
- *  Copyright (c) 2022 flowln <flowlnlnln@gmail.com>
-=======
- *  Prism Launcher - Minecraft Launcher
  *  Copyright (c) 2024 TheKodeToad <TheKodeToad@proton.me>
  *  Copyright (C) 2026 Octol1ttle <l1ttleofficial@outlook.com>
  *  Copyright (C) 2026 Trial97 <alexandru.tripon97@gmail.com>
->>>>>>> upstream/develop:launcher/Result.h
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

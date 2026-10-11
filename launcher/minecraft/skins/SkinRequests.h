@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 /*
-<<<<<<< HEAD:launcher/net/ApiUpload.h
  *  Penguin Launcher - Minecraft Launcher
  *  Copyright (C) 2023 Rachel Powers <508861+Ryex@users.noreply.github.com>
-=======
- *  Prism Launcher - Minecraft Launcher
- *  Copyright (c) 2026 Trial97 <alexandru.tripon97@gmail.com>
->>>>>>> upstream/develop:launcher/minecraft/skins/SkinRequests.h
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

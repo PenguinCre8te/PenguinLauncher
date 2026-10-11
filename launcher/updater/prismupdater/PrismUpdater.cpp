@@ -1028,11 +1028,7 @@ void PrismUpdaterApp::backupAppDir()
     if (fileList.isEmpty()) {
         // best guess
         if (BuildConfig.BUILD_ARTIFACT.toLower().contains("linux")) {
-<<<<<<< HEAD
             file_list.append({ "PenguinLauncher", "bin", "share", "lib" });
-=======
-            fileList.append({ "PrismLauncher", "bin", "share", "lib" });
->>>>>>> upstream/develop
         } else {  // windows by process of elimination
             fileList.append({
                 "jars",

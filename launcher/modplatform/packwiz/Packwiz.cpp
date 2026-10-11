@@ -222,22 +222,13 @@ void V1::updateModIndex(const QDir& indexDir, Mod& mod)
     {
         auto tbl = toml::table{ { "name", mod.name.toStdString() },
                                 { "filename", mod.filename.toStdString() },
-<<<<<<< HEAD
-                                { "side", ModPlatform::SideUtils::toString(mod.side).toStdString() },
+                                { "side", mod.side.toString().toStdString() },
                                 { "x-penguinlauncher-loaders", loaders },
                                 { "x-penguinlauncher-mc-versions", mcVersions },
                                 { "x-penguinlauncher-release-type", mod.releaseType.toString().toStdString() },
-                                { "x-penguinlauncher-version-number", mod.version_number.toStdString() },
+                                { "x-penguinlauncher-version-number", mod.versionNumber.toStdString() },
                                 { "x-penguinlauncher-dependencies", deps },
-=======
-                                { "side", mod.side.toString().toStdString() },
-                                { "x-prismlauncher-loaders", loaders },
-                                { "x-prismlauncher-mc-versions", mcVersions },
-                                { "x-prismlauncher-release-type", mod.releaseType.toString().toStdString() },
-                                { "x-prismlauncher-version-number", mod.versionNumber.toStdString() },
-                                { "x-prismlauncher-dependencies", deps },
-                                { "x-prismlauncher-lock-update", mod.lockUpdate },
->>>>>>> upstream/develop
+                                { "x-penguinlauncher-lock-update", mod.lockUpdate },
                                 { "download",
                                   toml::table{
                                       { "mode", mod.mode.toStdString() },
@@ -289,7 +280,7 @@ auto V1::getIndexForMod(const QDir& indexDir, const QString& slug) -> Mod
 #if TOML_EXCEPTIONS
     // Catch std::exception instead of toml::parse_error to work around
     // the latter not being caught here when compiled with libc++.
-    // See https://github.com/PrismLauncher/PrismLauncher/issues/6047.
+    // See https://github.com/penguinLauncher/penguinLauncher/issues/6047.
     try {
         table = toml::parse_file(StringUtils::toStdString(indexDir.absoluteFilePath(realFname)));
     } catch (const std::exception& err) {
@@ -314,16 +305,10 @@ auto V1::getIndexForMod(const QDir& indexDir, const QString& slug) -> Mod
     {  // Basic info
         mod.name = stringEntry(table, "name");
         mod.filename = stringEntry(table, "filename");
-<<<<<<< HEAD
-        mod.side = ModPlatform::SideUtils::fromString(stringEntry(table, "side"));
-        mod.releaseType = ModPlatform::IndexedVersionType::fromString(table["x-penguinlauncher-release-type"].value_or(""));
-        if (auto loaders = table["x-penguinlauncher-loaders"]; loaders && loaders.is_array()) {
-=======
         mod.side = ModPlatform::SideType::fromString(stringEntry(table, "side"));
-        mod.releaseType = ModPlatform::IndexedVersionType::fromString(table["x-prismlauncher-release-type"].value_or(""));
-        mod.lockUpdate = table["x-prismlauncher-lock-update"].value_or(false);
-        if (auto loaders = table["x-prismlauncher-loaders"]; loaders && loaders.is_array()) {
->>>>>>> upstream/develop
+        mod.releaseType = ModPlatform::IndexedVersionType::fromString(table["x-penguinlauncher-release-type"].value_or(""));
+        mod.lockUpdate = table["x-penguinlauncher-lock-update"].value_or(false);
+        if (auto loaders = table["x-penguinlauncher-loaders"]; loaders && loaders.is_array()) {
             for (auto&& loader : *loaders.as_array()) {
                 if (loader.is_string()) {
                     mod.loaders |= ModPlatform::getModLoaderFromString(QString::fromStdString(loader.as_string()->value_or("")));
@@ -343,11 +328,7 @@ auto V1::getIndexForMod(const QDir& indexDir, const QString& slug) -> Mod
             std::ranges::sort(mod.mcVersions, sortMCVersions);
         }
     }
-<<<<<<< HEAD
     mod.version_number = table["x-penguinlauncher-version-number"].value_or("");
-=======
-    mod.versionNumber = table["x-prismlauncher-version-number"].value_or("");
->>>>>>> upstream/develop
 
     {  // [download] info
         auto* downloadTable = table["download"].as_table();
@@ -389,11 +370,7 @@ auto V1::getIndexForMod(const QDir& indexDir, const QString& slug) -> Mod
         }
     }
     {  // dependencies
-<<<<<<< HEAD
         auto deps = table["x-penguinlauncher-dependencies"].as_array();
-=======
-        auto* deps = table["x-prismlauncher-dependencies"].as_array();
->>>>>>> upstream/develop
         if (deps) {
             for (auto&& depNode : *deps) {
                 auto* dep = depNode.as_table();
