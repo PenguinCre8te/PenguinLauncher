@@ -129,14 +129,10 @@ symlinkJoin {
       ++ additionalPrograms;
 
     in
-<<<<<<< HEAD
-    [ "--prefix PENGUINLAUNCHER_JAVA_PATHS : ${lib.makeSearchPath "bin/java" jdks}" ]
-=======
     [
-      "--set NIX_LAUNCHER_WRAPPER ${placeholder "out"}/bin/prismlauncher"
-      "--prefix PRISMLAUNCHER_JAVA_PATHS : ${lib.makeSearchPath "bin/java" jdks}"
+      "--set NIX_LAUNCHER_WRAPPER ${placeholder "out"}/bin/penguinlauncher"
+      "--prefix PENGUINLAUNCHER_JAVA_PATHS : ${lib.makeSearchPath "bin/java" jdks}"
     ]
->>>>>>> upstream/develop
     ++ lib.optionals stdenv.hostPlatform.isLinux [
       "--set LD_LIBRARY_PATH ${addDriverRunpath.driverLink}/lib:${lib.makeLibraryPath runtimeLibs}"
       "--prefix PATH : ${lib.makeBinPath runtimePrograms}"
