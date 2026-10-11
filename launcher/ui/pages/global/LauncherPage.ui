@@ -262,38 +262,7 @@
           <item row="2" column="1">
            <widget class="QLineEdit" name="iconsDirTextBox"/>
           </item>
-<<<<<<< HEAD
-          <item row="4" column="2">
-           <widget class="QPushButton" name="skinsDirBrowseBtn">
-            <property name="text">
-             <string>Browse</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="labelJavaDir">
-            <property name="toolTip">
-             <string>Folder where Penguin Launcher stores automatically downloaded Java versions. Do NOT set this to your system Java installation.</string>
-            </property>
-            <property name="text">
-             <string>&amp;Auto Java Download:</string>
-            </property>
-            <property name="buddy">
-             <cstring>javaDirTextBox</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="iconsDirBrowseBtn">
-            <property name="text">
-             <string>Browse</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-=======
           <item row="5" column="0">
->>>>>>> upstream/develop
            <widget class="QLabel" name="labelSkinsDir">
             <property name="text">
              <string>&amp;Skins:</string>
